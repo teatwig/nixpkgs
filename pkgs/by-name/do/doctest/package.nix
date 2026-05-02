@@ -7,13 +7,13 @@
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "doctest";
-  version = "2.5.0";
+  version = "2.5.2";
 
   src = fetchFromGitHub {
     owner = "doctest";
     repo = "doctest";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-7t/eknv7VtHoBgcuJmI07x//HIyqzE9HUuH5u2y7X8A=";
+    hash = "sha256-4jW6xPFCFxk1l47EkSUVojhycrtluPhOc5Adf/25R7M=";
   };
 
   nativeBuildInputs = [ cmake ];
