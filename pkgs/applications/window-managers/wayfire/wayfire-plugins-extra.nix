@@ -7,12 +7,11 @@
   pkg-config,
   wayfire,
   wayland-scanner,
-  wf-config,
   boost,
+  glibmm,
   libdrm,
   libevdev,
   libinput,
-  libxkbcommon,
   vulkan-headers,
   libxcb-wm,
   gtkmm3,
@@ -24,15 +23,19 @@
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "wayfire-plugins-extra";
-  version = "0.10.0";
+  version = "0.11.0-unstable-2026-07-17";
 
   src = fetchFromGitHub {
     owner = "WayfireWM";
     repo = "wayfire-plugins-extra";
-    rev = "v${finalAttrs.version}";
-    hash = "sha256-C5dgs81R4XuPjIm7sj1Mtu4IMIRBEYU6izg2olymeVI=";
+    rev = "4290ddf13bfadb344d45cb25c47f7825bbdc8a30";
+    hash = "sha256-HhCGB4ZslglB4o+xZ1gUmeUKWTR1VPnYS2Maqi++OaY=";
     fetchSubmodules = true;
   };
+
+  # fix pixdecor to not generate files outside the sandbox
+  patches = [ ./pixdecor-submodule-build.patch ];
+  patchFlags = [ "-p1" "-d" "subprojects/pixdecor" ];
 
   nativeBuildInputs = [
     meson
@@ -43,12 +46,11 @@ stdenv.mkDerivation (finalAttrs: {
 
   buildInputs = [
     wayfire
-    wf-config
     boost
+    glibmm
     libdrm
     libevdev
     libinput
-    libxkbcommon
     vulkan-headers
     libxcb-wm
     gtkmm3

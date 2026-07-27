@@ -1,0 +1,41 @@
+diff --git a/locale/es_ES/LC_MESSAGES/wf-plugin-pixdecor.po b/locale/es_ES.po
+similarity index 100%
+rename from locale/es_ES/LC_MESSAGES/wf-plugin-pixdecor.po
+rename to locale/es_ES.po
+diff --git a/locale/meson.build b/locale/meson.build
+index eff4d3f..41992c6 100644
+--- a/locale/meson.build
++++ b/locale/meson.build
+@@ -1,19 +1,5 @@
+-share_dir = join_paths(get_option('prefix'), 'share')
+-wayfire_locale_dir = join_paths(share_dir, 'locale')
+-
+-fs = import('fs')
+-
+-po_files_raw = run_command('find', '.', '-name', '*.po', check : true).stdout().strip().split('\n')
+-po_files = files(po_files_raw)
+-
+-foreach po_file : po_files
+-    language = fs.name(fs.parent(fs.parent(po_file)))
+-    install_path = join_paths(wayfire_locale_dir, language, 'LC_MESSAGES')
+-    mo_dir = join_paths(meson.project_build_root(), 'locale', language, 'LC_MESSAGES')
+-    mo_file = fs.stem(po_file) + '.mo'
+-    mo_path = join_paths(mo_dir, mo_file)
+-    run_command('mkdir', '-p', mo_dir, check : true)
+-    run_command('msgfmt', po_file, '-o', mo_path, check : true)
+-    install_data(mo_path, install_dir : install_path)
+-endforeach
+-
++i18n = import('i18n')
++i18n.gettext('wf-plugin-pixdecor',
++    languages : ['es_ES', 'ro', 'zh_CN'],
++    install_dir : join_paths(get_option('prefix'), 'share', 'locale')
++)
+diff --git a/locale/ro/LC_MESSAGES/wf-plugin-pixdecor.po b/locale/ro.po
+similarity index 100%
+rename from locale/ro/LC_MESSAGES/wf-plugin-pixdecor.po
+rename to locale/ro.po
+diff --git a/locale/zh_CN/LC_MESSAGES/wf-plugin-pixdecor.po b/locale/zh_CN.po
+similarity index 100%
+rename from locale/zh_CN/LC_MESSAGES/wf-plugin-pixdecor.po
+rename to locale/zh_CN.po

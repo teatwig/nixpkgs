@@ -9,24 +9,23 @@
   wayfire,
   wf-shell,
   wayland-scanner,
-  wayland-protocols,
+  fmt,
   gtk3,
   gtkmm3,
   libevdev,
   libxml2,
-  libxkbcommon,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "wcm";
-  version = "0.10.0";
+  version = "0.11.0-unstable-2026-04-27";
 
   src = fetchFromGitHub {
     owner = "WayfireWM";
     repo = "wcm";
-    rev = "v${finalAttrs.version}";
+    rev = "84063a07ccfc5be2a96b98d934271761a1730c2b";
     fetchSubmodules = true;
-    hash = "sha256-O4BYwb+GOMZIn3I2B/WMJ5tUZlaegvwBuyNK9l/gxvQ=";
+    hash = "sha256-WL4hXbiCDAKTkeB2zTUlMetS199a+fpnHqGuBTHRVDA=";
   };
 
   nativeBuildInputs = [
@@ -40,12 +39,11 @@ stdenv.mkDerivation (finalAttrs: {
   buildInputs = [
     wayfire
     wf-shell
-    wayland-protocols
+    fmt
     gtk3
     gtkmm3
     libevdev
     libxml2
-    libxkbcommon
   ];
 
   meta = {

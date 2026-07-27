@@ -17,23 +17,23 @@
   libinput,
   libjpeg,
   libxkbcommon,
-  libxml2,
+  openssl,
   vulkan-headers,
   wayland,
   wayland-protocols,
   wayland-scanner,
-  wlroots_0_19,
+  wlroots_0_20,
   pango,
   libxcb-wm,
   yyjson,
 }:
 let
-  wlroots = wlroots_0_19;
+  wlroots = wlroots_0_20;
 in
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "wayfire";
-  version = "0.10.1";
+  version = "0.11.0";
 
   outputs = [
     "out"
@@ -45,12 +45,17 @@ stdenv.mkDerivation (finalAttrs: {
     repo = "wayfire";
     rev = "v${finalAttrs.version}";
     fetchSubmodules = true;
-    hash = "sha256-yiqtnsXxvC7vk22ZQ5OFt5uX40FCRGWpfZrax9GItAg=";
+    hash = "sha256-G6GakEpnqw3xORXP7mr2YoyAEymozV0CYeof+a1Nh74=";
   };
 
+  # wayfire doesn't declare `drm` as a dependency for all plugins, which is why some files can't be resolved
   postPatch = ''
     substituteInPlace plugins/common/wayfire/plugins/common/cairo-util.hpp \
       --replace "<drm_fourcc.h>" "<libdrm/drm_fourcc.h>"
+    substituteInPlace plugins/ipc-rules/meson.build \
+      --replace \
+      "all_deps = [wlroots, pixman, wfconfig, wftouch, json, plugin_pch_dep]" \
+      "all_deps = [wlroots, pixman, drm, wfconfig, wftouch, json, plugin_pch_dep]"
   '';
 
   nativeBuildInputs = [
@@ -67,20 +72,20 @@ stdenv.mkDerivation (finalAttrs: {
     libevdev
     libinput
     libjpeg
-    libxkbcommon
-    libxml2
     vulkan-headers
-    wayland-protocols
     libxcb-wm
-    yyjson
   ];
 
   propagatedBuildInputs = [
+    cairo
+    libxkbcommon
+    openssl
+    pango
+    wayland
+    wayland-protocols
     wf-config
     wlroots
-    wayland
-    cairo
-    pango
+    yyjson
   ];
 
   nativeCheckInputs = [
